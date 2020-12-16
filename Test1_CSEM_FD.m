@@ -1,29 +1,12 @@
-%------------------------------------------------------------------%
-% Copyright (c) 2012 by the Society of Exploration Geophysicists.  %
-% For more information, go to http://software.seg.org/2012/0003 .  %
-% You must read and accept usage terms at:                         %
-% http://software.seg.org/disclaimer.txt before use.               %
-%------------------------------------------------------------------%
 
-%
-% A simple Matlab program for testing the digital filter (aka fast Hankel
-% transform, FHT) and quadrature with extrapolation (QWE) methods for
-% evaluating frequency domain CSEM integrals.
-%
-% Kerry Key
-% Scripps Institution of Oceanography
-%
 %--------------------------------------------------------------------------
 clc;
 clear all;
 close all;
-clear variables % play it safe
-
 %--------------------------------------------------------------------------
 % Adjustable model and data parameters:
 %--------------------------------------------------------------------------
 global k h srln n_int n_layer omega mu_h eps_h zz offset Rcdpt Srdpt
-
 %       Air    Ocean    Seafloor--->
 z = [-1e60 0 300 1300 1400 2400];   % Layer top depths (the first value is not used)
 rho = [1e12 0.3125 1 2 1 1];   % Layer resistivities  (ohm-m)
@@ -66,17 +49,11 @@ for rh = 1:length(r)
     
 end
 
-[E_kk201, stats_kk201] = get_CSEM1D_FD_FHT(f,r,zRx,zTx,z,sig,'wa801Hankel.txt');
-
 figure;
-semilogy(r,abs(E_kk201))
+semilogy(r,abs(Erho))
 xlabel('Range (m)')
 ylabel('Amplitude (V/Am^2)')
-hold on
-semilogy(r,abs(Erho))
-legend('Key','Loseth')
 
-err = 100*sum(abs((abs(E_kk201) - abs(Erho)')./abs(E_kk201)))/length(Erho);
 
 
 
